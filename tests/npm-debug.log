@@ -1,0 +1,55 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'node-inspectorcd',
+1 verbose cli   '.' ]
+2 info using npm@1.1.48
+3 info using node@v0.6.2
+4 verbose config file /home/fantasyni/.npmrc
+5 verbose config file /usr/local/etc/npmrc
+6 verbose config file /usr/local/lib/node_modules/npm/npmrc
+7 verbose read json /usr/local/lib/package.json
+8 verbose read json /usr/local/lib/package.json
+9 verbose cache add [ 'node-inspectorcd', null ]
+10 silly cache add name=undefined spec="node-inspectorcd" args=["node-inspectorcd",null]
+11 verbose parsed url { pathname: 'node-inspectorcd',
+11 verbose parsed url   path: 'node-inspectorcd',
+11 verbose parsed url   href: 'node-inspectorcd' }
+12 verbose cache add [ '.', null ]
+13 silly cache add name=undefined spec="." args=[".",null]
+14 verbose parsed url { pathname: '.', path: '.', href: '.' }
+15 silly lockFile aa756ca8-node-inspectorcd node-inspectorcd
+16 verbose lock node-inspectorcd /home/fantasyni/.npm/aa756ca8-node-inspectorcd.lock
+17 silly lockFile 3a52ce78- .
+18 verbose lock . /home/fantasyni/.npm/3a52ce78-.lock
+19 silly lockFile aa756ca8-node-inspectorcd node-inspectorcd
+20 verbose read json package.json
+21 verbose addNamed [ 'node-inspectorcd', '' ]
+22 verbose addNamed [ null, '' ]
+23 silly lockFile 20956a75-node-inspectorcd node-inspectorcd@
+24 verbose lock node-inspectorcd@ /home/fantasyni/.npm/20956a75-node-inspectorcd.lock
+25 silly addNameRange { name: 'node-inspectorcd', range: '', hasData: false }
+26 verbose url raw node-inspectorcd
+27 verbose url resolving [ 'http://192.168.147.207:5984/ntsregistry/_design/app/_rewrite/',
+27 verbose url resolving   './node-inspectorcd' ]
+28 verbose url resolved http://192.168.147.207:5984/ntsregistry/_design/app/_rewrite/node-inspectorcd
+29 info retry registry request attempt 1 at 16:37:11
+30 http GET http://192.168.147.207:5984/ntsregistry/_design/app/_rewrite/node-inspectorcd
+31 silly lockFile 3a52ce78- .
+32 error addLocal Could not install .
+33 error Error: ENOENT, no such file or directory 'package.json'
+34 error If you need help, you may report this log at:
+34 error     <http://github.com/isaacs/npm/issues>
+34 error or email it to:
+34 error     <npm-@googlegroups.com>
+35 error System Linux 3.0.0-12-generic
+36 error command "node" "/usr/local/bin/npm" "install" "-g" "node-inspectorcd" "."
+37 error cwd /home/fantasyni/oss/tests
+38 error node -v v0.6.2
+39 error npm -v 1.1.48
+40 error path package.json
+41 error code ENOENT
+42 error errno 34
+43 verbose exit [ 34, true ]

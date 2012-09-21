@@ -1,0 +1,67 @@
+上传图片
+
+头像更新成功
+
+45108 新闻
+
+115114 相册
+
+<img[^>]*\s+src\s*=\s*\.\.\\\.\.\\\.\.\\\.\.\\(\w+)\\(\w+)\\(\w+)\\(\w+)\.(\w+)\s*[^>]*/?>
+->
+<img src="http://newspaper\.jfdaily\.com/$1/$2/$3/$4\.$5" >
+
+<div class="entry-content">(.*?)<div class="gad">
+
+请选择要上传的图片！！！
+
+<a href="/user/fantasyni" >
+
+发微博啦，大家要支持哦
+
+输入微博字数超过限制！！！
+
+微博客不能为空！！！
+
+//之后的@不通知
+
+消息列表
+
+@提到我的
+
+评论
+
+私信
+
+关注我的人
+
+您有3条@消息
+
+收藏
+
+本版本暂不支持私信功能，敬请期待
+
+评论 我的微博
+
+删除
+
+消息
+
+暂时还没有关注任何人
+
+@提到我的
+
+确定取消关注吗？
+
+select * from weibo where author_id="nizhenyang" or author_id=( select follow_id from relation where user_id="nizhenyang" ) order by create_at desc limit 0,10
+
+转发
+
+http://m.chinayes.com/news_1_1_20120731133626696235120.html
+
+取消关注
+<span class="time SG_txtc">(20\d+-\d+-\d+ \d+:\d+:\d+)</span>
+
+ <td align="center" valign="middle" style="left:240px;width:400px;height:350px;text-align:center;cursor:pointer;" id="mainSrc" >(.*?)<td width="30" align="right">
+
+ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA+QHR5r7YrkZsg/PsLs/4oyKr8ErLxv4k1NBm86bpGZuR2LfS1wbRcSDh7/L097/TNzSRBCzOQZIHBTqW4VicYQuuV2wKSKmllaqYo1NsXgminfSaG1VpAFXywL9yiWqvhPGOhG4kkkB7SfYY5pJmvEtBMUJSCTmZdNF1xdnDAYaJpPzqu+hsDto4o2jNCfyPNeSkD5VqQtZus63S5/hBIxsH/yI7ZIu8f/f8NFxTLozrIqp4oCvOD/7S0muaTeJsSlRNc+8lE0D9D921U1Rs8wQhdi6P374ffza7kaQnguZS00jKmAarFNWW4csUs6o5zOAgn1f/E+u2RRbx6wMizw== hznizhy@corp.netease.com
+309677db
