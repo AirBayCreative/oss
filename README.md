@@ -31,6 +31,35 @@ all api functions have the same style as showed below
 
 you can configue the options object to make your oss request , it is really simple !!!  
 
+#Command Line
+put oss/bin/ to your system PATH then you can use oss command line directly  
+type oss -h you can get the help infomation showed below
+<pre>
+    Usage: oss [options]
+
+  Options:
+
+    -h, --help                       output usage information
+    -V, --version                    output the version number
+    -v, --version                    output the version number
+    -p, --putbucket                  create a new bucket
+    -l, --listbucket                 list buckets
+    -s, --setacl                     set bucket acl
+    -L, --listobject                 list objects
+    -g, --getacl                     get bucket acl
+    -d, --deletebucket               delete bucket
+    -P, --putobject                  simple put object to oss
+    -G, --getobject                  get object from oss to local dstFile
+    -C, --copyobject                 copy object in oss
+    -H, --headobject                 get object meta info
+    -D, --deleteobject               delete object in oss
+    -x, --deleteobjects              delete objects in oss
+    -m, --multiputobject             multipart upload object to oss
+    -S, --listmultiput               list multipart uploads
+    -n, --group                      post object group
+    -u, --uploaddir                  upload local dir files to a oss dir in a bucket
+    -U, --syncdir                    sync local dir files to a oss dir in a bucket
+    -c, --copyright                  show oss command line copyright
+</pre>
 #Tutorial  
 you can visit this file to get the whole Tutorial
-
