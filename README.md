@@ -10,6 +10,9 @@ OSS is a [node.js](http://nodejs.org) SDK and Command-Line Tool for [Aliyun OSS]
   
 more api infomations you can see [oss_api](http://storage.aliyun.com/aliyun_portal_storage/oss_api/OSS_API.zip)  
 
+#Install  
+npm install oss  
+
 #Usage  
 all api functions have the same style as showed below  
   
@@ -31,8 +34,9 @@ all api functions have the same style as showed below
 
 you can configue the options object to make your oss request , it is really simple !!!  
 
-#Command Line
-put oss/bin/ to your system PATH then you can use oss command line directly  
+#Command Line  
+first you must configure the key.js file to add your access_id and access_key  
+then put oss/bin/ to your system PATH then you can use oss command line directly  
 type oss -h you can get the help infomation showed below
 <pre>
     Usage: oss [options]
