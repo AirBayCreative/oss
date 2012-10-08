@@ -94,5 +94,5 @@
 
  	use_ssl : false,
 
- 	OSS_VERSION : "v0.0.1"
+ 	OSS_VERSION : "v0.0.4"
  }

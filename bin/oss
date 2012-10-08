@@ -4,13 +4,21 @@ var program = require('commander');
 var util = require('util');
 var config = require('../config.js');
 var ossClient = require('../lib/oss');
-var key = require('../key');
+var fs = require('fs');
+var _path = process.cwd() + '/key.js';
+//console.log(process.cwd());
 
-if(typeof key.accessId == "undefined" || typeof key.accessKey == "undefined"){
-	throw new Error("accessId and accessKey are both required");
+var content = (fs.readFileSync(_path)).toString();
+var key = {};
+if(content){
+  key = JSON.parse(content);
 }
 
-var client = new ossClient(key);
+var client ;
+
+if(key&&key.accessId && key.accessKey){
+  client = new ossClient(key);
+}
 
 var bucket = "";
 var object = "";
@@ -32,17 +40,37 @@ var format_date = function (date) {
   return year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
 };
 
+function configure(accessId,accessKey){
+  accessKey = process.argv[4];
+  key.accessId = accessId;
+  key.accessKey = accessKey;
+  
+  fs.writeFile(_path,JSON.stringify({accessId:key.accessId,accessKey:key.accessKey}),function(err){
+    if(err) throw err;
+    console.log('set accessId: ' + key.accessId + ' accessKey: ' + key.accessKey);
+    if(!client){
+      client = new ossClient(key);
+    }
+  });
+}
+
 function putbucket(bucket){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   client.create_bucket( {bucket : bucket},function(err,results){
     if(err) {
       console.error(err);
       return;
     }
-    console.log(results);
+    console.log(util.inspect(results,true,null));
   })
 }
 
 function setacl(bucket,acl){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   acl = process.argv[4];
   client.set_bucket_acl(
   { bucket:bucket,
@@ -54,11 +82,14 @@ function setacl(bucket,acl){
       console.error(err);
       return;
     }
-    console.log(results);
+    console.log(util.inspect(results,true,null));
   })
 }
 
 function listobject(bucket){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   client.get_bucket({bucket:bucket},function(err,results){
     if(err) {
       console.error(err);
@@ -82,6 +113,9 @@ function listobject(bucket){
 }
 
 function getacl(bucket){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   client.get_bucket_acl({bucket:"fni_test"},function(err,results){
     if(err) {
       console.error(err);
@@ -92,17 +126,21 @@ function getacl(bucket){
 }
 
 function deletebucket(bucket){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   client.get_bucket({bucket:bucket},function(err,results){
     if(err) {
       console.error(err);
       return;
     }
-    var contents = results['Contents'];
+    console.log(util.inspect(results,true,null));
+    var contents = results['ListBucketResult']['Contents'];
     var objects = [];
     for(var key in contents){
-      objects.push(contents[key]['Key']);
+      objects.push(contents[key]['Key'][0]);
     }
-    //console.log(objects);
+    console.log(objects);
     client.delete_objects({
       bucket:bucket,
       objects:objects
@@ -111,20 +149,23 @@ function deletebucket(bucket){
         console.error(err);
         return;
       }
-      console.log(results);
+      console.log(util.inspect(results,true,null));
       client.delete_bucket({bucket:bucket},function(err,results){
         if(err) {
           console.error(err);
           return;
         }
         console.log("delete bucket operations");
-        console.log(results);
+        console.log(util.inspect(results,true,null));
       })
     })
   })
 }
 
 function putobject(bucket,ossObject,srcFile){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   ossObject = process.argv[4];
   srcFile = process.argv[5];
   console.log('uploading...');
@@ -141,6 +182,9 @@ function putobject(bucket,ossObject,srcFile){
 }
 
 function getobject(bucket,ossObject,dstFile){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   console.log('downloading...');
   ossObject = process.argv[4];
   dstFile = process.argv[5];
@@ -158,6 +202,9 @@ function getobject(bucket,ossObject,dstFile){
 }
 
 function copyobject(srcBucket,srcObject,dstBucket,dstObject){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   srcObject = process.argv[4];
   dstBucket = process.argv[5];
   dstObject = process.argv[6];
@@ -176,6 +223,9 @@ function copyobject(srcBucket,srcObject,dstBucket,dstObject){
 }
 
 function headobject(bucket,ossObject){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   ossObject = process.argv[4];
   client.head_object({
     bucket:bucket,
@@ -190,6 +240,9 @@ function headobject(bucket,ossObject){
 }
 
 function deleteobject(bucket,ossObject){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   ossObject = process.argv[4];
   client.delete_object({
     bucket:bucket,
@@ -204,6 +257,9 @@ function deleteobject(bucket,ossObject){
 }
 
 function deleteobjects(bucket,ossObjects){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   ossObjects = process.argv.slice(4);
   //console.log(ossObjects);
   client.delete_objects({
@@ -219,6 +275,9 @@ function deleteobjects(bucket,ossObjects){
 }
 
 function multiputobject(bucket,ossObject,srcFile){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   ossObject = process.argv[4];
   srcFile = process.argv[5];
   console.log('uploading...');
@@ -231,12 +290,15 @@ function multiputobject(bucket,ossObject,srcFile){
       console.error(err);
       return;
     }
-    console.log("----------------complete-------------");
-    console.log(results);
+    
+    console.log(util.inspect(results,true,null));
   })
 }
 
 function listmultiput(bucket){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   client.list_multipart_uploads({
     bucket:bucket
   },function(err,results){
@@ -244,14 +306,17 @@ function listmultiput(bucket){
       console.error(err);
       return;
     }
-    console.log(results);
+    console.log(util.inspect(results,true,null));
   })
 }
 
 function group(bucket,ossObject,objects){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   ossObject = process.argv[4];
   objects = process.argv.slice[5];
-  oss.create_object_group({
+  client.create_object_group({
     bucket:bucket,
     object:ossObject,
     objects:objects
@@ -260,14 +325,17 @@ function group(bucket,ossObject,objects){
       console.error(err);
       return;
     }
-    console.log(results);
+    console.log(util.inspect(results,true,null));
   })
 }
 
 function uploaddir(bucket,ossDir,srcDir){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   ossDir = process.argv[4];
   srcDir = process.argv[5] || '.';
-  oss.upload_objects_by_dir({
+  client.upload_objects_by_dir({
     bucket:bucket,
     ossDir:ossDir,
     local:srcDir
@@ -276,14 +344,17 @@ function uploaddir(bucket,ossDir,srcDir){
       console.error(err);
       return;
     }
-    console.log(results);
+    console.log(util.inspect(results,true,null));
   });
 }
 
 function syncdir(bucket,ossDir,srcDir){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   ossDir = process.argv[4];
   srcDir = process.argv[5] || '.';
-  oss.sync_local_dir({
+  client.sync_local_dir({
     bucket:bucket,
     ossDir:ossDir,
     local:srcDir
@@ -292,13 +363,14 @@ function syncdir(bucket,ossDir,srcDir){
       console.error(err);
       return;
     }
-    console.log(results);
+    console.log(util.inspect(results,true,null));
   });
 }
 
 program
   .version(config.OSS_VERSION)
   .option('-v, --version', 'output the version number')
+  .option('-q, --config <accessId> <accessKey>','configure accessId and accessKey',configure)
   .option('-p, --putbucket <bucket>', 'create a new bucket',putbucket)
   .option('-l, --listbucket', 'list buckets')
   .option('-s, --setacl <bucket> <acl>', 'set bucket acl',setacl)
@@ -322,7 +394,11 @@ program.parse(process.argv);
 
 
 if(program.listbucket){
+  if(!key.accessId || !key.accessKey){
+    throw new Error("you must configure accessId and accessKey before other operations");
+  }
   client.list_bucket(function(err,results){
+    if(err) throw err;
     console.log(util.inspect(results,true,null));
     /*var buckets = results['ListAllMyBucketsResult']['Buckets']['Bucket'];
     for(var key in buckets){
