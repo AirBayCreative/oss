@@ -5,8 +5,9 @@ var util = require('util');
 var config = require('../config.js');
 var ossClient = require('../lib/oss');
 var fs = require('fs');
-var _path = process.cwd() + '/key.js';
-//console.log(process.cwd());
+var path = require('path');
+//var _path = path.resolve('..') + '/key.js';
+var _path = require.resolve('../key.js');
 
 var content = (fs.readFileSync(_path)).toString();
 var key = {};
@@ -149,7 +150,7 @@ function deletebucket(bucket){
         console.error(err);
         return;
       }
-      console.log(util.inspect(results,true,null));
+      //console.log(util.inspect(results,true,null));
       client.delete_bucket({bucket:bucket},function(err,results){
         if(err) {
           console.error(err);
