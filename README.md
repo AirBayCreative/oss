@@ -61,5 +61,34 @@ type oss -h you can get the help infomation showed below
     -U, --syncdir                    sync local dir files to a oss dir in a bucket
     -c, --copyright                  show oss command line copyright
 </pre>
-#Tutorial  
-you can visit this file to get the whole Tutorial
+#Examples  
+you can visit test file to get more examples
+
+#Some Features  
++ compress upload  
+when put object you can set options gzip : true to use compress upload
+<pre>  
+  oss.put_object( {  bucket : "fni_te", object : "node-demos.tar.gz" , srcFile : "/home/fantasyni/node-demos.tar.gz" ,gzip : true},function(err,results){
+		if(err) throw err;
+		console.log(results);
+	}
+);
+</pre>
+
++ upload_objects_by_dir  
+you can upload local dir files to oss  
+local dir path support relative path  and absolute path of course  
+<pre>
+ oss.upload_objects_by_dir({ bucket:"fni_oss1", ossDir:"test3", local:"." },function(err,results){
+  console.log(results);
+ });
+</pre>
+
++ sync_local_dir  
+similar to upload_objects_by_dir the differene is the dir will also be created in oss  
+<pre>
+ oss.sync_local_dir({ bucket:"fni_oss1", ossDir:"test2", local:"." },function(err,results){
+  console.log(results);
+ });
+</pre> 
+
