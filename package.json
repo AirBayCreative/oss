@@ -12,13 +12,13 @@
   , "dependencies": {
      "async" : ">0.0.1"
     , "request" : ">0.0.1"
-    , "xml2js" : "latest"
-    , "mime" : "latest"
-    , "data2xml" : "latest"
-    , "iconv-lite" : ">0.0.1"
+    , "xml2js" : "*"
+    , "mime" : "*"
+    , "data2xml" : "*"
     , "commander" : ">0.0.1"
     , "progress" : ">0.0.1"
     , "ndir" : "0.1.2"
+    , "oppressor" : "*"
   },
   "devDependencies": {
     "should": ">=0.6.0",

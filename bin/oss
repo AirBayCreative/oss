@@ -64,7 +64,8 @@ function listobject(bucket){
       console.error(err);
       return;
     }
-    var objects = results['Contents'];
+    console.log(util.inspect(results,true,null));
+    /*var objects = results['Contents'];
     if(typeof objects.length != "undefined"){
       for(var key in objects){
         objects[key]['LastModified'] = format_date(new Date(objects[key]['LastModified']));
@@ -76,7 +77,7 @@ function listobject(bucket){
       objects['LastModified'] = format_date(new Date(objects['LastModified']));
       delete objects['Owner'];
       console.log(objects);
-    }
+    }*/
   })
 }
 
@@ -86,7 +87,7 @@ function getacl(bucket){
       console.error(err);
       return;
     }
-    console.log(results['AccessControlList']['Grant']);
+    console.log(util.inspect(results,true,null));
   })
 }
 
@@ -126,17 +127,21 @@ function deletebucket(bucket){
 function putobject(bucket,ossObject,srcFile){
   ossObject = process.argv[4];
   srcFile = process.argv[5];
+  console.log('uploading...');
   client.put_object(
   { bucket : bucket,
     object : ossObject ,
     srcFile : srcFile
   },function(err,results){
+      if(err) throw err;
+      console.log('\n---------');
       console.log(results);
     }
   );
 }
 
 function getobject(bucket,ossObject,dstFile){
+  console.log('downloading...');
   ossObject = process.argv[4];
   dstFile = process.argv[5];
   client.get_object({
@@ -274,6 +279,23 @@ function uploaddir(bucket,ossDir,srcDir){
     console.log(results);
   });
 }
+
+function syncdir(bucket,ossDir,srcDir){
+  ossDir = process.argv[4];
+  srcDir = process.argv[5] || '.';
+  oss.sync_local_dir({
+    bucket:bucket,
+    ossDir:ossDir,
+    local:srcDir
+  },function(err,results){
+    if(err) {
+      console.error(err);
+      return;
+    }
+    console.log(results);
+  });
+}
+
 program
   .version(config.OSS_VERSION)
   .option('-v, --version', 'output the version number')
@@ -293,6 +315,7 @@ program
   .option('-S, --listmultiput <bucket>', 'list multipart uploads',listmultiput)
   .option('-n, --group <bucket> <ossObject> <ossObjects>', 'post object group',group)
   .option('-u, --uploaddir <bucket> <ossDir> <srcDir>', 'upload local dir files to a oss dir in a bucket',uploaddir)
+  .option('-U, --syncdir <bucket> <ossDir> <srcDir>', 'sync local dir files to a oss dir in a bucket',syncdir)
   .option('-c, --copyright ', 'show oss command line copyright');
 
 program.parse(process.argv);
@@ -300,10 +323,11 @@ program.parse(process.argv);
 
 if(program.listbucket){
   client.list_bucket(function(err,results){
-    var buckets = results['Buckets']['Bucket'];
+    console.log(util.inspect(results,true,null));
+    /*var buckets = results['ListAllMyBucketsResult']['Buckets']['Bucket'];
     for(var key in buckets){
       console.log(buckets[key]['Name']);
-    }
+    }*/
   });
 }
 

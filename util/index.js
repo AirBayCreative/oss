@@ -42,7 +42,8 @@ exports.validate_object = function(object){
 * check for gb2312
 */
 exports.is_gb2312 = function(object){
-	if(/\u4E00-\u9FA5/g.test(object)){
+  var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+	if(reg.test(object)){
 		return true;
 	}
 	return false;
@@ -188,32 +189,12 @@ exports.iconv = function(from_code,to_code,str){
 }
 
 /**
-* 生成query params
-* @param array $array 关联数组
-* @return string 返回诸如 key1=value1&key2=value2
-*/
-exports.to_query_string = function(options){
-	var temp = [];
-	var signable_querystringparams = [];
-	var querystringparams = [];
-	var signable_list = ['partNumber','uploadId'];
-
-	for(var item in signable_list){
-		if(typeof options[item] != 'undefined' ){
-			signable_querystringparams[item] = options[item];
-		}
-	}
-
-	if(typeof options['query_string'] != "undefined"){
-		querystringparams = querystringparams.concat(options['query_string']);
-	}
-
-	
-}
-
-/*
-* md5 the string
-*/
+ *  md5
+ *  md5 the string
+ *  @param string {required}
+ *  @return string
+ *  @api public
+ */
 exports.md5 = function (str) {
   var md5sum = crypto.createHash('md5');
   md5sum.update(str);
@@ -221,13 +202,24 @@ exports.md5 = function (str) {
   return str;
 }
 
-/*
-* base64 the string
-*/
+/**
+ *  base64
+ *  base64 the string
+ *  @param str {required}
+ *  @return string
+ *  @api public
+ */
 exports.base64 = function(str){
   return crypto.createHash('md5').update(str).digest('base64');
 }
 
+/**
+ *  Get_Part_Size
+ *  
+ *  @param partSize {required}
+ *  @return string
+ *  @api public
+ */
 exports.getPartSize = function(partSize){
     var _partSize = 0;
     if(partSize <= 5242880){
@@ -241,8 +233,13 @@ exports.getPartSize = function(partSize){
     return _partSize;
 }
 
-/*
-*/
+/**
+ *  Get_File_Name
+ *  
+ *  @param fileName {required}
+ *  @return string
+ *  @api public
+ */
 exports.getFileName = function(name){
   for(var i=name.length-1;i>=0;i--){
     if(name[i] == '/'){
@@ -250,4 +247,23 @@ exports.getFileName = function(name){
     }
   }
   return name;
+}
+
+/**
+ *  Get_Absolute_File_Name
+ *  
+ *  @param fileName {required}
+ *  @return string
+ *  @api public
+ */
+exports.getAbsoluteFileName = function(dir,name){
+
+  if(name.length < dir.length){
+    throw new Error('file path must be longger than dir path');
+  }
+  for(var i=0;i<name.length;i++){
+    if(dir[i] != name[i]){
+      return name.substr(i);
+    }
+  }
 }
