@@ -37,6 +37,7 @@ you can configue the options object to make your oss request , it is really simp
 #Command Line  
 first you must configure the key.js file to add your access_id and access_key  
 then put oss/bin/ to your system PATH then you can use oss command line directly  
+or you can use npm install -g oss to use it directly  
 type oss -h you can get the help infomation showed below
 <pre>
     Usage: oss [options]
