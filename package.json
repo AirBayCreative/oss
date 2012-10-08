@@ -5,9 +5,12 @@
     "email": "fantasyni@163.com"
   }
   , "description": "Aliyun OSS node.js SDK and Command-Line Tool"
-  , "version": "0.0.1"
-  , "private": true
+  , "version": "0.1.2"
+  , "private": false
   , "main" : "./lib/oss.js"
+  , "bin" : {
+    "oss": "./bin/oss"
+  }
   , "keywords" : "aliyun oss node.js sdk command line "
   , "dependencies": {
      "async" : ">0.0.1"
